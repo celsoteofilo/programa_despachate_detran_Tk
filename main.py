@@ -1,10 +1,14 @@
 import datetime as dt
 import tkinter
+from _xxsubinterpreters import destroy
 from tkinter import *  # importa janelas
 from tkinter import ttk, messagebox  # importa o cromobox -> rolagem de dados
 
 
+
+
 import funcao_chamar_pag_consulta_veiculo
+from Janela_2 import test_janela
 
 lista_tipos = ["CARRO","CARRO ELETRICO","MOTO","MOTO ELETRICA ","CAMINHAO "]
 lista_codigos = []
@@ -183,12 +187,19 @@ botao_codigo.grid(row=11, column=1, pady=5, padx=5, sticky= 'nswe')
 
 # BOTAO TESTES
 
-botao_codigo = tkinter.Button(text=" Janela 2 " )
+botao_codigo = tkinter.Button(text= "Janela" , command=test_janela)
 botao_codigo.grid(row=12, column=1, pady=5, padx=5, sticky= 'nswe')
+
 
 
 print(banco_de_dados)
 janela.mainloop()
+
+
+
+
+
+
 
 
 
