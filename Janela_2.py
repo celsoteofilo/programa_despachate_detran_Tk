@@ -22,3 +22,15 @@ def test_janela():
 
 
     janela2.mainloop()
+
+    def botao_entrada(credenciais_nome, credencias_senha):
+
+    print(credenciais_nome[0:10])
+
+    if credenciais_nome [0:10] == novo_nome and credenciais_senha [0:10] == nova_senha:
+        print('SENHA VALIDA !!!')
+        messagebox.showinfo('Seja Bem vindo !!!')
+
+    else:
+        print('CADASTRE SENHA INVALIDA !!!')
+        messagebox.showinfo('NAO CADASTRADO!!! CADASTRE A BAIXO.')

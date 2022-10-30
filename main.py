@@ -199,10 +199,6 @@ janela.mainloop()
 
 
 
-
-
-
-
 # IMPRESSAO
 for x in lista_codigos:
     print(f'casadastro =  {x}')
