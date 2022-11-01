@@ -1,4 +1,3 @@
-
 import tkinter
 from tkinter import *
 
@@ -22,29 +21,50 @@ janela.configure(background=co1)
 
 #----------- VARIAVEL ARAMZENANDO SENHAS  ----------
 
+#__Lista entrada nome  e senha
+entrada_cred_nome=['Celso']
+entrada_cred_senha=['1']
+
+entrada_a = set(entrada_cred_nome)
+entrada_b = set(entrada_cred_senha)
+
+
+#--Lista entrada nome e senha NOVOS
+
 credenciais_novo_nome =[]
 credenciais_nova_senha =[]
 
-entrada_cred_nome=[]
-entrada_cred_senha=[]
-
+total_a = set(credenciais_novo_nome)
+total_b = set(credenciais_nova_senha)
 
 
 #________________FUNCAO  ENTRADA NOME E SENHA DE USUSARIO
 
+
+
+
+
 def botao_entrada():
 
-    nome = entra_nome.get()
-    senha =entra_senha.get()
+    nome1 = entra_nome.get()
+    senha1 =entra_senha.get()
 
-    entrada_cred_nome.append((nome))
-    entrada_cred_senha.append((senha))
+    entrada_cred_nome.append(nome1)
+    entrada_cred_senha.append(senha1)
 
-    print(entrada_cred_nome, entrada_cred_senha)
-    print(credenciais_novo_nome, credenciais_nova_senha)
+    print(entrada_cred_nome, entrada_cred_senha,'BOTAO DE ENTRADA NOME  E SENHA ARMAZENA ')
+    print(credenciais_novo_nome, credenciais_nova_senha,'BOTAO SENHA SALVA _NOVA _ARMAZENA  ')
 
 
-    if entrada_cred_nome == credenciais_novo_nome and entrada_cred_senha == credenciais_nova_senha:
+    print(total_a,'ENTRADA SETyyyyyy')
+    print(total_b, 'ENTRADA SETyyyyy')
+
+    print(entrada_a,'ENTRADA SETyyyyy')
+    print(entrada_b, 'ENTRADA SETyyyy')
+
+
+
+    if  entra_nome or entra_senha  in entrada_cred_nome or entrada_cred_senha :
 
         print('SENHA VALIDA !!!')
         messagebox.showinfo('Seja Bem vindo !!!')
@@ -60,10 +80,15 @@ def senha_nova():
     nome = novo_nome.get()
     senha = nova_senha.get()
 
-    credenciais_novo_nome.append((nome))
-    credenciais_nova_senha.append((senha))
+    credenciais_novo_nome.append(nome)
+    credenciais_nova_senha.append(senha)
+    print(credenciais_novo_nome, credenciais_nova_senha,)
 
-    print(credenciais_novo_nome, credenciais_nova_senha)
+    print(total_a,'ENTRADA SET xxxxxx')
+    print(total_b, 'ENTRADA SETxxxxx')
+
+    print(entrada_a,'ENTRADA SETxxxxxx')
+    print(entrada_b, 'ENTRADA SETxxxxx')
 
 # ___________________ ENTRADAS __________________________________
 
@@ -110,5 +135,5 @@ botao_confirmar_senha.grid(row=8, column=0, pady=2, padx=5, sticky= 'nswe',colum
 
 #______________________________________________________________________________________________
 
-
+print(total_a,total_b)
 janela.mainloop()

@@ -23,6 +23,7 @@ def test_janela():
 
     janela2.mainloop()
 
+'''
     def botao_entrada(credenciais_nome, credencias_senha):
 
     print(credenciais_nome[0:10])
@@ -34,3 +35,4 @@ def test_janela():
     else:
         print('CADASTRE SENHA INVALIDA !!!')
         messagebox.showinfo('NAO CADASTRADO!!! CADASTRE A BAIXO.')
+'''

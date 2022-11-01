@@ -3,10 +3,6 @@ import tkinter
 from _xxsubinterpreters import destroy
 from tkinter import *  # importa janelas
 from tkinter import ttk, messagebox  # importa o cromobox -> rolagem de dados
-
-
-
-
 import funcao_chamar_pag_consulta_veiculo
 from Janela_2 import test_janela
 
