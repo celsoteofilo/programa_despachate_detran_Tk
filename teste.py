@@ -1,7 +1,7 @@
 
 
 
-
+'''
 def sacola():
     for x in range(3):
     item = input('Entre com o iten: ')
@@ -11,7 +11,6 @@ def sacola():
     print(sacola)
 
 
-'''
 
 def autenticar(nomes,senhas,nome,senha):
   return nomes[0]==nome and senhas[0]==senha
