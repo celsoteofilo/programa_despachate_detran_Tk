@@ -1,5 +1,6 @@
 
 from main import entrada_cep, texto_cadastro
+from funcao_chamar_pag_cep import *
 
 def cep_busca():
     import requests

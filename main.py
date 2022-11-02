@@ -1,10 +1,10 @@
 import datetime as dt
 import tkinter
-from _xxsubinterpreters import destroy
 from tkinter import *  # importa janelas
 from tkinter import ttk, messagebox  # importa o cromobox -> rolagem de dados
+
 import funcao_chamar_pag_consulta_veiculo
-from Janela_2 import test_janela
+
 
 lista_tipos = ["CARRO","CARRO ELETRICO","MOTO","MOTO ELETRICA ","CAMINHAO "]
 lista_codigos = []
@@ -76,6 +76,74 @@ def inserir_codigo():
     nome = entrada.get()
     veiculo = botao_combobox.get()
     placa = placa_veiculo.get()
+def cep_busca():
+    import requests
+
+    cep = entrada_cep.get()
+    cep = cep.replace("-", "").replace(".", "").replace(" ", "")
+
+    if len(cep) == 8:
+        link = f'https://viacep.com.br/ws/{cep}/json/'
+        requisicao = requests.get(link)
+        print(requisicao)
+
+        resposta = requisicao.json()
+
+        uf = resposta['uf']
+        cidade = resposta['localidade']
+        bairro = resposta['bairro']
+        logradouro = resposta['logradouro']
+        complemento = resposta['complemento']
+
+        print(resposta)
+    else:
+         messagebox.showinfo('<CEP>, INVALIDO!!!')
+
+
+    texto_cep = f'''
+   
+    CEP INFORMADO : {cep}
+    RUA: {logradouro}
+    BAIRRO : {bairro}
+    CIDADE :  {cidade}
+    COMPLEMENTO {complemento}
+    UF : {uf}
+   
+    '''
+    texto_cadastro["text"] = texto_cep
+
+
+# FUNCAO GERAR CODIGO DE REGISTRO
+def inserir_codigo():
+
+    nome = entrada.get()
+    veiculo = botao_combobox.get()
+    placa = placa_veiculo.get()
+    chassi =  entrada_chassi.get()
+    cep = entrada_cep.get()
+
+    #puxando data e hora
+    data_criacao = dt.datetime.now()
+    data_criacao.strftime('%d/%m/%y--%H:%M')
+
+    #criando um codigo
+    codigo = len(lista_codigos)+1   # lendo o codigo + 1
+    codigo_str = "COD-{}".format(codigo)   #  formatando o codigo
+    lista_codigos.append((codigo_str,nome,placa,cep,veiculo,placa,data_criacao)) # montando a lista em seguencia
+    lista_produto_padrao.append((placa,data_criacao))
+
+
+    texto = f'''
+            
+    Pessoa Cadastrado : {nome}
+    Tipo :  {veiculo}
+    Placa Veiculo : {placa}
+    Numero do Chassi: {chassi}
+    codigo gerado: {codigo} 
+
+    '''
+    texto_cadastro["text"] = texto
+
     chassi =  entrada_chassi.get()
     cep = entrada_cep.get()
 
@@ -181,17 +249,86 @@ botao_codigo.grid(row=11, column=0, pady=5, padx=5, sticky= 'nswe')
 botao_codigo = tkinter.Button(text=" Cancelar ")
 botao_codigo.grid(row=11, column=1, pady=5, padx=5, sticky= 'nswe')
 
-# BOTAO TESTES
 
-botao_codigo = tkinter.Button(text= "Janela" , command=test_janela)
+def abrir_jabela():
+    #janela_2 = tkinter.Toplevel()
+    #janela_2.title('nova janela')
+
+
+
+
+    janela2 = Tk()
+    janela2.geometry("800x800")
+    janela2.title('DESPACHANTE DIGITAL - CHECK LIST ')
+    janela2.resizable=True   # resizable=True movintar a tela e false trava tela
+    janela2.confirm_close=True # confirm_close=True, pergunta de confirmaçao fechar janela
+
+       #--TEXTO TELA----
+    texto = Label(text= "PREENCHA O CHECK LIST")
+    texto.grid(row=0, column=1, pady=0, padx=0, sticky= 'nswe')
+
+        #  1 ENTRADA DE NOME:
+    entrada = Label(janela2,text= " NOME: ")
+    entrada.grid(row=3, column=0, padx=0, pady=0, sticky='nswe')
+    entrada1 = Entry(janela2)
+    entrada1.grid(row=3, column=1, pady=0, padx=0, sticky= 'nswe')
+
+            # 2 ENTRADA PLACA:
+    entrada = Label(janela2,text= " DIGITE A PLACA :  ")
+    entrada.grid(row=4, column=0, padx=0, pady=0, sticky='nswe')
+    placa = Entry(janela2)
+    placa .grid(row=4, column=1, pady=0, padx=0, sticky= 'nswe')
+
+
+    def bd_tela_2():
+
+        banco =dict()
+        dados1 = list()
+
+        banco ['id'] = entrada1.get()
+        banco ['placa'] = placa.get()
+
+        dados1.append(banco.copy())
+        print(f' ESTE E O PRINTE list()  {dados1}')
+        print(f' ESTE E O PRINTE dict()  {banco}')
+
+
+    botao_confirma= tkinter.Button(janela2,text=" CONFIRMA_2 ",command=bd_tela_2)
+    botao_confirma.grid(row=5, column=0, pady=5, padx=5, sticky= 'nswe')
+
+    botao_cancelar= tkinter.Button(janela2,text=" cancelar_2 ",command=janela2.destroy)
+    botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky= 'nswe')
+
+
+
+
+
+#_________CHAMAR JANELA 2_______
+
+botao_codigo = tkinter.Button(text= "Janela 2",command=abrir_jabela)
 botao_codigo.grid(row=12, column=1, pady=5, padx=5, sticky= 'nswe')
 
+botao_sair= tkinter.Button(text=" SAIR ")
+botao_sair.grid(row=8, column=1, pady=5, padx=5, sticky= 'nswe')
 
 
-print(banco_de_dados)
+'''
+
+
+#__________________________________________________________________________
+
+
+    botao_codigo = tkinter.Button(text= "Janela 2")
+    botao_codigo.grid(row=12, column=1, pady=5, padx=5, sticky= 'nswe')
+
+
+    print(banco_de_dados)
+    
+    
+'''
 janela.mainloop()
 
-
+# BOTAO TESTES
 
 
 
