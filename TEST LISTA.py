@@ -29,9 +29,7 @@ print(teste)
 
     print(t_entrada, ' AS DUAS JUNTAS , ENTRADA')
 
-'''
 
-'''
 dados  = list()
 dados.append('pedro')
 dados.append(25)
@@ -149,7 +147,6 @@ print(brasil[1] ['sigla'])
 
 print('______________________________________________________')
 
-'''
 
 #_________________ DICIONARIO 5 _____________________________
 # DICIONARIO  ler 3 estados -- ACRESENTANDO ITENS .
@@ -165,3 +162,21 @@ for e in brasil:
     print(e)
     for k, v in e.items():
         print(f' O Campo {k} tem valor {v}', end = " ")
+'''
+
+import os, sys
+import Tkinter
+import Image, ImageTk
+import time
+
+root = Tkinter.Tk()
+w, h = root.winfo_screenwidth(), root.winfo_screenheight()
+root.overrideredirect(1)
+root.geometry("%dx%d+0+0" % (w, h))
+root.focus_set()
+root.bind("<Escape>", lambda e: e.widget.quit())
+image = Image.open(image_path+f)
+tkpi = ImageTk.PhotoImage(image)
+label_image = Tkinter.Label(root, image=tkpi)
+label_image.place(x=0,y=0,width=w,height=h)
+root.mainloop(0)

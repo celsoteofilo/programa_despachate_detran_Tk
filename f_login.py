@@ -4,7 +4,7 @@ from login import *
 
 
 #________________FUNCAO  ENTRADA NOME E SENHA DE USUSARIO
-
+from programa_despachate_detran_Tk.venv.Copia_seguranca_login import credenciais_novo_nome, credenciais_nova_senha
 
 
 def botao_entrada():
