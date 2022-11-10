@@ -162,7 +162,7 @@ for e in brasil:
     print(e)
     for k, v in e.items():
         print(f' O Campo {k} tem valor {v}', end = " ")
-'''
+
 
 import os, sys
 import Tkinter
@@ -180,3 +180,25 @@ tkpi = ImageTk.PhotoImage(image)
 label_image = Tkinter.Label(root, image=tkpi)
 label_image.place(x=0,y=0,width=w,height=h)
 root.mainloop(0)
+
+'''
+
+import tkinter as tk
+frame = tk.Tk()
+frame.title("TextBox Input")
+frame.geometry('400x200')
+def printInput():
+    inp = inputtxt.get(1.0, "end-1c")
+    lbl.config(text = "Provided Input: "+inp)
+inputtxt = tk.Text(frame,
+                   height = 5,
+                   width = 20)
+
+inputtxt.pack()
+printButton = tk.Button(frame,
+                        text = "Print",
+                        command = printInput)
+printButton.pack()
+lbl = tk.Label(frame, text = "")
+lbl.pack()
+frame.mainloop()

@@ -2,10 +2,11 @@
 import pathlib
 import tkinter
 from tkinter import *  # importa janelas
-from tkinter import ttk, messagebox  # importa o cromobox -> rolagem de dados
+from tkinter import ttk, messagebox # importa o cromobox -> rolagem de dados
 
 # _______________________Biblioteca para BANCO DE DADOS___________________________
 from tkinter.ttk import Combobox
+
 
 import openpyxl, xlrd
 from openpyxl import Workbook
@@ -15,8 +16,9 @@ import pathy
 import datetime as dt
 
 # ___________________BIBLIOTECA PARA FUNCOES INTERNAS _____________________________
+from tqdm import tk
 
-
+import funcao_chama_habilitacao
 import funcao_chamar_pag_consulta_veiculo
 
 
@@ -261,7 +263,7 @@ def abrir_jabela_3():
 
 
     janela3 = Tk()
-    janela3.geometry("800x800")
+    janela3.geometry("900x800")
     janela3.title('DESPACHANTE DIGITAL - CADASTRO ')
     janela3.resizable = True  # resizable=True movintar a tela e false trava tela
     janela3.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fechar janela
@@ -270,21 +272,49 @@ def abrir_jabela_3():
 
     nome = StringVar()
     fone = StringVar()
-    sexo= StringVar()
-    idade = StringVar()
-    endereco =StringVar()
+    entrada_cep =  StringVar()
+    cpf = StringVar()
+    endereco = StringVar()
+    numero = StringVar()
+    cidade = StringVar()
+    bairro = StringVar()
+    habilitacao = StringVar()
+    estado = StringVar()
+    tipo_combustivel = StringVar()
+    placa_veiculo = StringVar()
+    chassi = StringVar()
+    caixa_dialogo_a = StringVar()
+    potencia = StringVar()
+    veiculo_a= StringVar()
+
+
+
 
 
     def clear ():
+
+
         nome.delete(0,END)
         fone.delete(0,END)
-        idade.delete(0,END)
+        entrada_cep.delete(0,END)
+        cpf.delete(0,END)
         endereco.delete(0,END)
+        numero.delete(0,END)
+        cidade.delete(0,END)
+        bairro.delete(0,END)
+        habilitacao.delete(0,END)
+        estado.delete(0,END)
+        tipo_combustivel.delete(0,END)
+        placa_veiculo.delete(0,END)
+        chassi.delete(0,END)
+        caixa_dialogo_a.delete(0,END)
+        potencia.delete(0,END)
+        veiculo_a.delete(0,END)
+
 
 
      #def pode_pular()  #---> funsao deixar passar
         #pass
-
 
 # ________ ESTE E O CODIGO PARA CRIAR UM BANCO DE DADOS_______________________________
     documentos = pathlib.Path ('Banco de dados.xlsx')
@@ -293,11 +323,24 @@ def abrir_jabela_3():
     else:
         documentos= Workbook()
         sheet = documentos.active
-        sheet['A1'] = "nome"
-        sheet['B1'] = "fone"
-        sheet['C1'] = "sexo"
-        sheet['D1'] = "idade"
-        sheet['E1'] = "endereco"
+
+        sheet['A1'] ="nome"
+        sheet['B1'] ="fone"
+        sheet['C1'] ="etrada_cep"
+        sheet['D1'] ="cpf"
+        sheet['E1'] ="endereco"
+        sheet['F1'] ="numero"
+        sheet['G1'] ="cidade"
+        sheet['H1'] ="bairro"
+        sheet['I1'] ="habilitacao"
+        sheet['J1'] ="estado"
+        sheet['K1'] ="tipo_combustivel"
+        sheet['L1'] ="placa_veiculo"
+        sheet['M1'] ="chassi"
+        sheet['N1'] ="caixa_dialogo_a"
+        sheet['O1'] ="potencia"
+        sheet['P1'] ="veiculo_a"
+
 
         documentos.save('Banco de dados.xlsx')
 
@@ -305,28 +348,84 @@ def abrir_jabela_3():
 
         nomeGet = nome.get()
         foneGet = fone.get()
-        sexoGet = sexo.get()
-        idadeGet = idade.get()
-        enderecoGet= endereco.get()
+        cepGet = entrada_cep.get()
+        cpfGet = cpf.get()
+        enderecoGet =endereco.get()
+        numeroGet =numero.get()
+        cidadeGet =cidade.get()
+        bairroGet =bairro.get()
+        habilitacaoGet = habilitacao.get()
+        estadoGet =estado.get()
+        tipo_combustivelGet =tipo_combustivel.get()
+        placa_veiculoGet =placa_veiculo.get()
+        chassiGet =chassi.get()
+        caixa_dialogoGet =caixa_dialogo_a.get()
+        potenciaGet=potencia.get()
+        veiculoGet=veiculo_a.get()
 
         documentos=openpyxl.load_workbook(r'Banco de dados.xlsx')
         sheet =documentos.active
 
         sheet.cell(column= 1, row=sheet.max_row + 1, value=nomeGet)
         sheet.cell(column= 2, row=sheet.max_row , value=foneGet)
-        sheet.cell(column= 3, row=sheet.max_row , value=idadeGet)
-        sheet.cell(column= 4, row=sheet.max_row , value=sexoGet)
+        sheet.cell(column= 3, row=sheet.max_row , value=cepGet)
+        sheet.cell(column= 4, row=sheet.max_row , value=cpfGet)
         sheet.cell(column= 5, row=sheet.max_row ,value= enderecoGet)
+        sheet.cell(column= 6, row=sheet.max_row , value=numeroGet)
+        sheet.cell(column= 7, row=sheet.max_row , value=cidadeGet)
+        sheet.cell(column= 8, row=sheet.max_row , value=bairroGet)
+        sheet.cell(column= 9, row=sheet.max_row , value=habilitacaoGet)
+        sheet.cell(column= 10, row=sheet.max_row , value=estadoGet)
+        sheet.cell(column= 11, row=sheet.max_row , value=tipo_combustivelGet)
+        sheet.cell(column= 12, row=sheet.max_row , value=placa_veiculoGet)
+        sheet.cell(column= 13, row=sheet.max_row , value=chassiGet)
+        sheet.cell(column= 14, row=sheet.max_row , value=caixa_dialogoGet)
+        sheet.cell(column= 15, row=sheet.max_row , value=potenciaGet)
+        sheet.cell(column= 16, row=sheet.max_row , value=veiculoGet)
+
 
         documentos.save('Banco de dados.xlsx')
 
-        print(nomeGet,foneGet,idadeGet,sexoGet,enderecoGet)
+        print(nomeGet,foneGet,cpfGet,numeroGet,cidadeGet,bairroGet,habilitacaoGet,estadoGet,tipo_combustivelGet,
+              placa_veiculoGet,chassiGet,potenciaGet,veiculoGet)
+
+
+ #_________________CONTRUCAO DE CODIGO DE CADASTRO____________N OS_____________________________
+
+
+    def ordem_servico():
+
+            # __________________puxando data e hora_____________
+        data_criacao = dt.datetime.now()
+        data_criacao.strftime('%y/%m/%d--%H:%M')
+
+            #____________________ criando um codigo_____________
+        codigo = len(lista_codigos) + 1  # lendo o codigo + 1
+        codigo_str = "COD-{}".format(codigo)  # formatando o codigo
+        lista_codigos.append((codigo_str, data_criacao))  # montando a lista em seguencia
+        lista_produto_padrao.append((data_criacao))
+
+        texto = f'''
+                    
+        ORDEM DE SERVICO: {codigo} 
+        DATA : {data_criacao}
+        
+        '''
+        texto_OS["text"] = texto
+
+    texto_OS = Label(janela3, text=" ")
+    texto_OS.place(x=450 , y=420)
+
+
 
         # --TEXTO TELA----
-    texto = Label(janela3,text="DADOS A SER PREENCHIDOS ")
+    texto = Label(janela3,text="DADOS A SER PREENCHIDOS ",font='arial 15 bold')
     texto.grid(row=0, column=1, pady=0, padx=0 ,sticky='nswe')
-    linha0 = Label (janela3, text=" ",width=450,anchor=N,font=('ily 1'), bg = co2)
-    linha0.place(x=360,y=10)
+
+        # LINHA VERDE 0
+
+    linha0 = Label (janela3, text=" ",width=350,anchor=N,font=('ily 1'), bg = co2)
+    linha0.place(x=460,y=7)
 
 
         #  NOME:
@@ -380,49 +479,54 @@ def abrir_jabela_3():
         '''
         texto_cadastro["text"] = texto_cep
 
-    janela_cep = Label(janela3,text=" Digite seu CEP:  ")
-    janela_cep.grid(row=4, column=0, padx=0, pady=0, sticky='nswe')
+    cep = Label(janela3,text=" Digite seu CEP:  ")
+    cep.grid(row=4, column=0, padx=0, pady=0, sticky='nswe')
     entrada_cep = Entry(janela3)
     entrada_cep.grid(row=4, column=1, pady=0, padx=0, sticky='nswe')
 
     botao_codigo = tkinter.Button(janela3,text="CONSULTAR CEP. ", command=cep_busca_3)
     botao_codigo.grid(row=5, column=2, pady=0, padx=0, sticky='nswe', columnspan=1)
 
+
+        # ___ TEXTO DO CePNa TeLA ___________
+
+
     texto_cadastro = Label(janela3, text=" ")
-    texto_cadastro.grid(row=11, column=1, sticky='nswe')
+    texto_cadastro.place(x=170 , y= 360)
 
 
-        # CPF:
+        # __________________CPF:________________________
 
 
-    cpf = Label(janela3, text=" CPF:   ")
+    cpf = Label(janela3, text="CPF:")
     cpf.grid(row=4, column=2, padx=0, pady=0, sticky='nswe')
     cpf = Entry(janela3)
     cpf.grid(row=4 , column=3 , pady=0, padx=0,ipady= 0, sticky='nswe')
 
-        #  ENDERECO:
-    endereco = Label(janela3, text=" ENDERECO:  ")
+        # _________________________ ENDERECO:__________________
+    endereco = Label(janela3, text="ENDERECO: ")
     endereco.grid(row=6, column=0, padx=0, pady=0, sticky='nswe')
     endereco = Entry(janela3)
     endereco.grid(row=6 , column=1 , pady=0, padx=0,ipady= 0, sticky='nswe')
 
-    #      NUMERO DA CASA:
+    #____________  NUMERO DA CASA:_______________________________
 
     numero = Label(janela3, text=" Nº:  ")
     numero.grid(row=6, column=2, padx=0, pady=0, sticky='nswe')
     numero = Entry(janela3)
     numero.grid(row=6 , column=3 , pady=0, padx=0,ipady= 0,sticky='nswe')
 
-    #   CIDADE :
+    # __________________________  CIDADE :_____________________________________
     lista_cidades =sorted(['Belo Horizonte ','IBIRITE','SARZEDO','MARIO CAMPOS','BETIM','S.J DE BICAS','IGARAPE','BRUMADINHO',
                     'CRUCILANDIA','PATOS DE MINAS', 'JANUARIA','CONGONHAS','CORINTOS','SETE LAGOS',
                     'SABARA','PIEDADE GERAIS'])
 
-    janela_cidade = Label(janela3,text="CIDADE:  ")
-    janela_cidade.grid(row=7, column=0, padx=0, pady=0, sticky='nswe')
-    botao_combobox_cidade= ttk.Combobox(janela3,values=lista_cidades)
-    botao_combobox_cidade.grid(row=7, column=1, pady=0, padx=0, sticky='nswe')
+    cidade = Label(janela3,text="CIDADE:  ")
+    cidade.grid(row=7, column=0, padx=0, pady=0, sticky='nswe')
+    cidade= ttk.Combobox(janela3,values=lista_cidades)
+    cidade.grid(row=7, column=1, pady=0, padx=0, sticky='nswe')
 
+    # ___________________________BAIRRO___________________________________________
 
     bairro = Label(janela3, text=" BAIRROº:  ")
     bairro.grid(row=7, column=2, padx=0, pady=0, sticky='nswe')
@@ -431,14 +535,14 @@ def abrir_jabela_3():
 
 
 
-         #  ENTRADA DE GENERO IDADE:
-    idade = Label(janela3,text=" IDADE: ")
-    idade.grid(row=9, column=0, padx=0, pady=0, sticky='nswe')
-    idade = Entry(janela3)
-    idade.grid(row=9, column=1, pady=0, padx=0,sticky='nswe')
+    # ___________________________ ENTRADA HABILTACAO :___________-------------
+    habilitacao = Label(janela3,text=" Nº HABILITACAO: ")
+    habilitacao.grid(row=9, column=0, padx=0, pady=0, sticky='nswe')
+    habilitacao = Entry(janela3)
+    habilitacao.grid(row=9, column=1, pady=0, padx=0,sticky='nswe')
 
 
-         # ENTRADA DE ESTADO:
+    # ____________________________ENTRADA DE ESTADO:__________________________________
     estado = Label(janela3,text=" ESTADO UF: ")
     estado.grid(row=9, column=2, padx=0, pady=0, sticky='nswe')
 
@@ -447,16 +551,16 @@ def abrir_jabela_3():
     estado.set('MG')
 
 
-    # BOTOES DE CONFIRMACAO
+    #______________________ BOTOES DE CONFIRMACAO   JANELA 3 _______________________________
 
-    botao_codigo = tkinter.Button(janela3,text="SALVAR",command=puxando_dados)
-    botao_codigo.grid(row=10, column=1, pady=5, padx=5, sticky='nswe')
+    botao_salva = tkinter.Button(janela3,text="SALVAR",command=puxando_dados)
+    botao_salva.place(x=100, y=700, width=200)
 
-    botao_codigo = tkinter.Button(janela3,text="LIMPAR",command=clear)
-    botao_codigo.grid(row=10, column=2, pady=5, padx=5, sticky='nswe')
+    botao_limpa = tkinter.Button(janela3,text="LIMPAR",command=clear)
+    botao_limpa.place(x=300, y=700, width=200)
 
-    botao_codigo = tkinter.Button(janela3,text="SAIR", command=janela3.destroy)
-    botao_codigo.grid(row=10, column=3, pady=5, padx=5, sticky='nswe')
+    botao_sair = tkinter.Button(janela3,text="SAIR", command=janela3.destroy)
+    botao_sair.place(x=500, y=700, width=200)
 
 
     #Linha1 = Label (janela3, text="",width=275,anchor=NW,font=('ily 1'), bg = co2)
@@ -472,25 +576,23 @@ def abrir_jabela_3():
 
 
     # ENTRADA DE  TIPO DE CARRO
-    texto = Label(janela3,text="CADASTRO DE CARRO ")
+    texto = Label(janela3,text="CADASTRO DE CARRO ",font='arial 15 bold')
     texto.grid(row=16, column=1, pady=0, padx=0 ,sticky='nswe')
 
 
-    janela_veiculo = Label(janela3,text="TIPO DE VEICULO:  ")
-    janela_veiculo.grid(row=18, column=0, padx=0, pady=0, sticky='nswe')
+    veiculo = Label(janela3,text="TIPO DE VEICULO:  ")
+    veiculo.grid(row=18, column=0, padx=0, pady=0, sticky='nswe')
 
-    botao_combobox = ttk.Combobox(janela3,values=["CARRO", "MOTO", "CAMINHAO "])
-    botao_combobox.grid(row=18, column=1, pady=0, padx=0, sticky='nswe')
+    veiculo_a= ttk.Combobox(janela3,values=sorted(["CARRO", "MOTO", "CAMINHAO ","OUTROS"]))
+    veiculo_a.grid(row=18, column=1, pady=0, padx=0, sticky='nswe')
 
 
     # ENTRADA DE TIPO DE COMBUSTIVEL ______________________________________________________
 
-
-
     tipo_combustivel = Label(janela3,text="TIPO COMBUSTIVEL:  ")
     tipo_combustivel.grid(row=18, column=2, padx=0, pady=0, sticky='nswe')
-
-    tipo_combustivel = ttk.Combobox(janela3,values=["GASOLINA ", "ALCOOL", "DISEL","ELETRICO"])
+    tipo_combustivel = ttk.Combobox(janela3,values=sorted(["GASOLINA ", "ALCOOL", "DISEL","ELETRICO","GAS","FLEX",
+                                                           "FLEX + GAS","GASOLINA +  GAS", "ALCOOL + GAS"]))
     tipo_combustivel.grid(row=18, column=3, pady=0, padx=0, sticky='nswe')
 
     # 4 ENTRADA PLACA DE VEICULO
@@ -502,37 +604,43 @@ def abrir_jabela_3():
 
       # CHASSI DO VEICULO
 
-    janela_chassi = Label(janela3,text='NUMERO DO CHASSI:')
-    janela_chassi.grid(row=19, column=2, padx=0, pady=0, sticky='nswe')
-    entrada_chassi = Entry(janela3)
-    entrada_chassi.grid(row=19, column=3, pady=0, padx=0, sticky='nswe')
+    chassi = Label(janela3,text='NUMERO DO CHASSI:')
+    chassi.grid(row=19, column=2, padx=0, pady=0, sticky='nswe')
+    chassi = Entry(janela3)
+    chassi.grid(row=19, column=3, pady=0, padx=0, sticky='nswe')
 
     # POTENCIA MOTOR
 
     potencia = Label(janela3,text="POT. MOTOR:  ")
-    potencia.grid(row=18, column=2, padx=0, pady=0, sticky='nswe')
-
+    potencia.grid(row=21, column=2, padx=0, pady=0, sticky='nswe')
     potencia = ttk.Combobox(janela3,values=["1.0 ", "1.4","1.5","1.8","2.0","2.8","3.0","4.0","5.0","OUTROS"])
-    potencia.grid(row=18, column=3, pady=0, padx=0, sticky='nswe')
+    potencia.grid(row=21, column=3, pady=0, padx=0, sticky='nswe')
 
-    checar = Label(janela3,text=' Checar')
+    # PLACAS
+
+    checar = Label(janela3,text=' PLACA:')
     checar.grid(row=19, column=0 , sticky='nswe')
 
+    # CAIXA DE DIALOGO
 
-
-
+    caixa_dialogo = Label(janela3,text='OBS NO CADASTRO : ',font='arial 15 bold',)
+    caixa_dialogo.place(x=200 , y=550, )
+    caixa_dialogo_a =Entry(janela3 )
+    caixa_dialogo_a.place(x= 450, y= 500,width=300, height=200)
 
     # CONSULTA DETRAN
-    consulta_placa = Label(janela3,text="DESEJA CONSULTA DETRAN: ")
-    consulta_placa.grid(row=20, column=0, pady=0, padx=0, sticky='nswe')
+
+    consulta_placa = Label(janela3,text="CONSULTA DETRAN VEICULO: ")
+    consulta_placa.grid(row=21, column=0, pady=0, padx=0, sticky='nswe')
     botao_pag_detran = tkinter.Button(janela3,text=" CONSULTAR ", command=funcao_chamar_pag_consulta_veiculo.janela_api)
-    botao_pag_detran.grid(row=20, column=1, pady=5, padx=5, sticky='nswe')
+    botao_pag_detran.grid(row=21, column=1, pady=5, padx=5, sticky='nswe')
 
+    # CONSULTA HABILITACAO
 
-
-
-
-
+    consulta_habilitacao = Label(janela3,text="CONSULTA DETRAN HABILITACAO: ")
+    consulta_habilitacao.grid(row=22, column=0, pady=0, padx=0, sticky='nswe')
+    botao_detran = tkinter.Button(janela3,text=" CONSULTAR ", command=funcao_chama_habilitacao.janela_habilitacao)
+    botao_detran.grid(row=22, column=1, pady=5, padx=5, sticky='nswe')
 
 
     #__________________________________________________________________________________________
