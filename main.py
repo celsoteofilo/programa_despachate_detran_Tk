@@ -39,7 +39,7 @@ banco_de_dados = []
 # _____________________JANELA PRINCIPAL ._____________________________________________
 
 janela = Tk()
-janela.geometry("800x800+1000+300")  # tamnanho da dela + centralizaçao da tela
+janela.geometry("920x800+1000+300")  # tamnanho da dela + centralizaçao da tela
 janela.title('DESPACHANTE DIGITAL')
 janela.resizable = False  # resizable=True movintar a tela e false trava tela
 janela.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fechar janela
@@ -207,7 +207,7 @@ def abrir_jabela():
     # janela_2.title('nova janela')
 
     janela2 = Tk()
-    janela2.geometry("800x800")
+    janela2.geometry("800x800+1000+300")
     janela2.title('DESPACHANTE DIGITAL - CHECK LIST ')
     janela2.resizable = True  # resizable=True movintar a tela e false trava tela
     janela2.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fechar janela
@@ -263,11 +263,10 @@ def abrir_jabela_3():
 
 
     janela3 = Tk()
-    janela3.geometry("900x800")
+    janela3.geometry("900x800+1000+300")
     janela3.title('DESPACHANTE DIGITAL - CADASTRO ')
     janela3.resizable = True  # resizable=True movintar a tela e false trava tela
     janela3.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fechar janela
-
 
 
     nome = StringVar()
@@ -388,8 +387,6 @@ def abrir_jabela_3():
 
         print(nomeGet,foneGet,cpfGet,numeroGet,cidadeGet,bairroGet,habilitacaoGet,estadoGet,tipo_combustivelGet,
               placa_veiculoGet,chassiGet,potenciaGet,veiculoGet)
-
-
  #_________________CONTRUCAO DE CODIGO DE CADASTRO____________N OS_____________________________
 
 
@@ -414,10 +411,8 @@ def abrir_jabela_3():
         texto_OS["text"] = texto
 
     texto_OS = Label(janela3, text=" ")
-    texto_OS.place(x=450 , y=420)
-
-
-
+    texto_OS.place(x=450 , y=400)
+#----------------------------------------------------------------------------------------------------------------------
         # --TEXTO TELA----
     texto = Label(janela3,text="DADOS A SER PREENCHIDOS ",font='arial 15 bold')
     texto.grid(row=0, column=1, pady=0, padx=0 ,sticky='nswe')
@@ -445,6 +440,7 @@ def abrir_jabela_3():
     # 2 ENTRADA  CAMPO CEP :
 
     def cep_busca_3():
+
         import requests
 
         cep = entrada_cep.get()
@@ -553,8 +549,12 @@ def abrir_jabela_3():
 
     #______________________ BOTOES DE CONFIRMACAO   JANELA 3 _______________________________
 
-    botao_salva = tkinter.Button(janela3,text="SALVAR",command=puxando_dados)
+
+    botao_salva = tkinter.Button(janela3,text="SALVAR",command= puxando_dados and ordem_servico)
     botao_salva.place(x=100, y=700, width=200)
+
+
+
 
     botao_limpa = tkinter.Button(janela3,text="LIMPAR",command=clear)
     botao_limpa.place(x=300, y=700, width=200)
@@ -626,7 +626,7 @@ def abrir_jabela_3():
     caixa_dialogo = Label(janela3,text='OBS NO CADASTRO : ',font='arial 15 bold',)
     caixa_dialogo.place(x=200 , y=550, )
     caixa_dialogo_a =Entry(janela3 )
-    caixa_dialogo_a.place(x= 450, y= 500,width=300, height=200)
+    caixa_dialogo_a.place(x= 450, y= 550,width=300, height=100)
 
     # CONSULTA DETRAN
 
@@ -643,8 +643,192 @@ def abrir_jabela_3():
     botao_detran.grid(row=22, column=1, pady=5, padx=5, sticky='nswe')
 
 
-    #__________________________________________________________________________________________
+#_________________________________________________________JANELA SERVICOS _____________________________________________
 
+def abrir_janela_4():
+
+    janela4 = Tk()
+    janela4.geometry("800x800+1000+300")
+    janela4.title('DESPACHANTE DIGITAL - CHECK LIST ')
+    janela4.resizable = True  # resizable=True movintar a tela e false trava tela
+    janela4.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fechar janela
+
+        # --TEXTO TELA----
+    texto = Label(janela4,text="PREENCHA O CHECK LIST")
+    texto.grid(row=0, column=1, pady=0, padx=0, sticky='nswe')
+
+        #  1 ENTRADA DE NOME:
+    entrada = Label(janela4, text=" NOME: ")
+    entrada.grid(row=3, column=0, padx=0, pady=0, sticky='nswe')
+    entrada = Entry(janela4)
+    entrada.grid(row=3, column=1, pady=0, padx=0, sticky='nswe')
+
+        # 2 ENTRADA PLACA:
+    placa = Label(janela4, text=" DIGITE A PLACA :  ")
+    placa.grid(row=4, column=0, padx=0, pady=0, sticky='nswe')
+    placa = Entry(janela4)
+    placa.grid(row=4, column=1, pady=0, padx=0, sticky='nswe')
+
+    def bd_tela_4():
+        banco = dict()
+        dados1 = list()
+
+        banco['id'] = entrada.get()
+        banco['placa'] = placa.get()
+
+        dados1.append(banco.copy())
+        print(f' ESTE E O PRINTE list()  {dados1}')
+        print(f' ESTE E O PRINTE dict()  {banco}')
+
+    botao_confirma = tkinter.Button(janela4, text=" CONFIRMA_2 ", command=bd_tela_4)
+    botao_confirma.grid(row=5, column=0, pady=5, padx=5, sticky='nswe')
+
+    botao_cancelar = tkinter.Button(janela4, text=" cancelar_2 ", command=janela4.destroy)
+    botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky='nswe')
+
+
+#_________________________________JANELA 5 ___GERENCIAMENTO _________________________________________________________
+def abrir_janela_5():
+
+    janela5 = Tk()
+    janela5.geometry("800x800+1000+300")
+    janela5.title('DESPACHANTE DIGITAL - CHECK LIST ')
+    janela5.resizable = True  # resizable=True movintar a tela e false trava tela
+    janela5.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fechar janela
+
+        # --TEXTO TELA----
+    texto = Label(janela5,text="PREENCHA O CHECK LIST")
+    texto.grid(row=0, column=1, pady=0, padx=0, sticky='nswe')
+
+        #  1 ENTRADA DE NOME:
+    entrada = Label(janela5, text=" NOME: ")
+    entrada.grid(row=3, column=0, padx=0, pady=0, sticky='nswe')
+    entrada = Entry(janela5)
+    entrada.grid(row=3, column=1, pady=0, padx=0, sticky='nswe')
+
+        # 2 ENTRADA PLACA:
+    placa = Label(janela5, text=" DIGITE A PLACA :  ")
+    placa.grid(row=4, column=0, padx=0, pady=0, sticky='nswe')
+    placa = Entry(janela5)
+    placa.grid(row=4, column=1, pady=0, padx=0, sticky='nswe')
+
+    def bd_tela_5():
+        banco = dict()
+        dados1 = list()
+
+        banco['id'] = entrada.get()
+        banco['placa'] = placa.get()
+
+        dados1.append(banco.copy())
+        print(f' ESTE E O PRINTE list()  {dados1}')
+        print(f' ESTE E O PRINTE dict()  {banco}')
+
+    botao_confirma = tkinter.Button(janela5, text=" CONFIRMA_2 ", command=bd_tela_5)
+    botao_confirma.grid(row=5, column=0, pady=5, padx=5, sticky='nswe')
+
+    botao_cancelar = tkinter.Button(janela5, text=" cancelar_2 ", command=janela5.destroy)
+    botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky='nswe')
+
+
+#____________________________________JANELA __6_ FINANCEIRO____________________________________________________________
+
+def abrir_janela_6():
+    janela6 = Tk()
+    janela6.geometry("800x800+1000+300")
+    janela6.title('DESPACHANTE DIGITAL - CHECK LIST ')
+    janela6.resizable = True  # resizable=True movintar a tela e false trava tela
+    janela6.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fechar janela
+
+    # --TEXTO TELA----
+    texto = Label(janela6, text="PREENCHA O CHECK LIST")
+    texto.grid(row=0, column=1, pady=0, padx=0, sticky='nswe')
+
+    #  1 ENTRADA DE NOME:
+    entrada = Label(janela6, text=" NOME: ")
+    entrada.grid(row=3, column=0, padx=0, pady=0, sticky='nswe')
+    entrada = Entry(janela6)
+    entrada.grid(row=3, column=1, pady=0, padx=0, sticky='nswe')
+
+    # 2 ENTRADA PLACA:
+    placa = Label(janela6, text=" DIGITE A PLACA :  ")
+    placa.grid(row=4, column=0, padx=0, pady=0, sticky='nswe')
+    placa = Entry(janela6)
+    placa.grid(row=4, column=1, pady=0, padx=0, sticky='nswe')
+
+    def bd_tela_6():
+        banco = dict()
+        dados1 = list()
+
+        banco['id'] = entrada.get()
+        banco['placa'] = placa.get()
+
+        dados1.append(banco.copy())
+        print(f' ESTE E O PRINTE list()  {dados1}')
+        print(f' ESTE E O PRINTE dict()  {banco}')
+
+    botao_confirma = tkinter.Button(janela6, text=" CONFIRMA_2 ", command=bd_tela_6)
+    botao_confirma.grid(row=5, column=0, pady=5, padx=5, sticky='nswe')
+
+    botao_cancelar = tkinter.Button(janela6, text=" cancelar_2 ", command=janela6.destroy)
+    botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky='nswe')
+
+#_____________________________________JANELA 7__MANUTECAO______________________________________________________________
+
+def abrir_janela_7():
+    janela7 = Tk()
+    janela7.geometry("800x800+1000+300")
+    janela7.title('DESPACHANTE DIGITAL - CHECK LIST ')
+    janela7.resizable = True  # resizable=True movintar a tela e false trava tela
+    janela7.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fechar janela
+
+    # --TEXTO TELA----
+    texto = Label(janela7, text="PREENCHA O CHECK LIST")
+    texto.grid(row=0, column=1, pady=0, padx=0, sticky='nswe')
+
+    #  1 ENTRADA DE NOME:
+    entrada = Label(janela7, text=" NOME: ")
+    entrada.grid(row=3, column=0, padx=0, pady=0, sticky='nswe')
+    entrada = Entry(janela7)
+    entrada.grid(row=3, column=1, pady=0, padx=0, sticky='nswe')
+
+    # 2 ENTRADA PLACA:
+    placa = Label(janela7, text=" DIGITE A PLACA :  ")
+    placa.grid(row=4, column=0, padx=0, pady=0, sticky='nswe')
+    placa = Entry(janela7)
+    placa.grid(row=4, column=1, pady=0, padx=0, sticky='nswe')
+
+    def bd_tela_7():
+        banco = dict()
+        dados1 = list()
+
+        banco['id'] = entrada.get()
+        banco['placa'] = placa.get()
+
+        dados1.append(banco.copy())
+        print(f' ESTE E O PRINTE list()  {dados1}')
+        print(f' ESTE E O PRINTE dict()  {banco}')
+
+    botao_confirma = tkinter.Button(janela7, text=" CONFIRMA_2 ", command=bd_tela_7)
+    botao_confirma.grid(row=5, column=0, pady=5, padx=5, sticky='nswe')
+
+    botao_cancelar = tkinter.Button(janela7, text=" cancelar_2 ", command=janela7.destroy)
+    botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky='nswe')
+
+
+#_____________________________________________________________________________________________________________________
+
+botao_codigo = tkinter.Button(text="MANUTENCAO", command=abrir_janela_7)
+botao_codigo.grid(row=1, column=4, pady=5, padx=5, sticky='nswe')
+
+botao_codigo = tkinter.Button(text="FINACEIRO", command=abrir_janela_6)
+botao_codigo.grid(row=1, column=3, pady=5, padx=5, sticky='nswe')
+
+botao_codigo = tkinter.Button(text="GERENCIAMENTO", command=abrir_janela_5)
+botao_codigo.grid(row=1, column=2, pady=5, padx=5, sticky='nswe')
+
+
+botao_codigo = tkinter.Button(text="SERVICOS", command=abrir_janela_4)
+botao_codigo.grid(row=1, column=1, pady=5, padx=5, sticky='nswe')
 
 botao_codigo = tkinter.Button(text="CADASTRO", command=abrir_jabela_3)
 botao_codigo.grid(row=1, column=0, pady=5, padx=5, sticky='nswe')
