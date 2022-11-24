@@ -6,8 +6,6 @@ from tkinter import ttk, messagebox # importa o cromobox -> rolagem de dados
 
 # _______________________Biblioteca para BANCO DE DADOS___________________________
 from tkinter.ttk import Combobox
-
-
 import openpyxl, xlrd
 from openpyxl import Workbook
 import pathy
@@ -21,7 +19,6 @@ from tqdm import tk
 import funcao_chama_habilitacao
 import funcao_chamar_pag_consulta_veiculo
 
-
 #cores ------------------------------
 co0 = "#fof3f5" # preto
 co1 = "#feffff" # branco
@@ -30,25 +27,17 @@ co3 = "#38576b" # valor
 co4 = "#403d3d" # letra
 # ____________________LISTAS GERADAS PRINCIPAIS PARA CONSUMO  DO SISTEMA ___________
 
-lista_tipos = ["CARRO", "CARRO ELETRICO", "MOTO", "MOTO ELETRICA ", "CAMINHAO "]
 lista_codigos = []
 lista_produto_padrao = []
-lista_cep = []
 banco_de_dados = []
 
 # _____________________JANELA PRINCIPAL ._____________________________________________
 
 janela = Tk()
-janela.geometry("920x800+1000+300")  # tamnanho da dela + centralizaçao da tela
+janela.geometry("920x800+1000+300") # tamnanho da dela + centralizaçao da tela
 janela.title('DESPACHANTE DIGITAL')
-janela.resizable = False  # resizable=True movintar a tela e false trava tela
+janela.resizable = True  # resizable=True movintar a tela e false trava tela
 janela.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fechar janela
-
-#janela.configure(bg="#326273") #-->Fundo da tela (cor)
-
-# exemplo de formato de texto usando (Label )
-# label = janela, texto = "OLA TESTE ", font 'arial 13', bg = "#3262673" ,fg '#fff' --> formato,tipo,cor.place(x=20 , y=20)
-# desta forma acima e mais faciel mexer com fonte e cor .
 
 # ________________________________CRIANDO A IMAGEM ________
 
@@ -56,209 +45,7 @@ bg = PhotoImage(file="v.png")
 label1 = Label(janela, image=bg)
 label1.place(x=250, y=500)
 
-
-#________________________FUNCAO BUSCA CEP  (API) ________
-
-def cep_busca():
-    import requests
-
-    cep = entrada_cep.get()
-    cep = cep.replace("-", "").replace(".", "").replace(" ", "")
-
-    if len(cep) == 8:
-        link = f'https://viacep.com.br/ws/{cep}/json/'
-        requisicao = requests.get(link)
-        print(requisicao)
-
-        resposta = requisicao.json()
-
-        uf = resposta['uf']
-        cidade = resposta['localidade']
-        bairro = resposta['bairro']
-        logradouro = resposta['logradouro']
-        complemento = resposta['complemento']
-
-        print(resposta)
-    else:
-        messagebox.showinfo('<CEP>, INVALIDO!!!')
-
-    texto_cep = f'''
-   
-    CEP INFORMADO : {cep}
-    RUA: {logradouro}
-    BAIRRO : {bairro}
-    CIDADE :  {cidade}
-    COMPLEMENTO {complemento}
-    UF : {uf}
-   
-    '''
-    texto_cadastro["text"] = texto_cep
-
-
-# ___________________FUNCAO GERAR CODIGO DE REGISTRO_________________________________________________
-def inserir_codigo():
-    nome = entrada.get()
-    veiculo = botao_combobox.get()
-    placa = placa_veiculo.get()
-    chassi = entrada_chassi.get()
-    cep = entrada_cep.get()
-
-    # __________________puxando data e hora_____________
-    data_criacao = dt.datetime.now()
-    data_criacao.strftime('%d/%m/%y--%H:%M')
-
-    #____________________ criando um codigo_____________
-    codigo = len(lista_codigos) + 1  # lendo o codigo + 1
-    codigo_str = "COD-{}".format(codigo)  # formatando o codigo
-    lista_codigos.append((codigo_str, nome, placa, cep, veiculo, placa, data_criacao))  # montando a lista em seguencia
-    lista_produto_padrao.append((placa, data_criacao))
-
-    texto = f'''
-            
-    Pessoa Cadastrado : {nome}
-    Tipo :  {veiculo}
-    Placa Veiculo : {placa}
-    Numero do Chassi: {chassi}
-    codigo gerado: {codigo} 
-
-    '''
-    texto_cadastro["text"] = texto
-
-#______________________________ENTRADA DE DADOS BOTOES E TEXTOS - JANELA 1 ___________________________________________
-
-
-
-#  1 ENTRADA DE NOME:
-janela_nome = Label(text=" NOME: ")
-janela_nome.grid(row=2, column=0, padx=0, pady=0, sticky='nswe')
-entrada = Entry()
-entrada.grid(row=2, column=1, pady=0, padx=0, sticky='nswe')
-
-# 2 ENTRADA  CAMPO CEP :
-janela_cep = Label(text=" Digite seu CEP:  ")
-janela_cep.grid(row=3, column=0, padx=0, pady=0, sticky='nswe')
-entrada_cep = Entry()
-entrada_cep.grid(row=3, column=1, pady=0, padx=0, sticky='nswe')
-
-botao_codigo = tkinter.Button(text="CONSULTAR CEP. ", command=cep_busca)
-botao_codigo.grid(row=4, column=0, pady=2, padx=5, sticky='nswe', columnspan=3)
-
-# 3 ENTRADA TIPO DE VEICULO:
-
-janela_veiculo = Label(text="TIPO DE VEICULO:  ")
-janela_veiculo.grid(row=5, column=0, padx=0, pady=0, sticky='nswe')
-
-botao_combobox = ttk.Combobox(values=lista_tipos)
-botao_combobox.grid(row=5, column=1, pady=0, padx=0, sticky='nswe')
-
-# 4 ENTRADA PLACA DE VEICULO
-
-placa = Label(text='PLACA DO VEICULO: ')
-placa.grid(row=2, column=3, pady=0, padx=0, sticky='nswe')
-placa_veiculo = Entry()
-placa_veiculo.grid(row=2, column=4, pady=0, padx=10, sticky='nswe')
-
-consulta_placa = Label(text="DESEJA CONSULTA DETRAN: ")
-consulta_placa.grid(row=3, column=3, pady=0, padx=0, sticky='nswe')
-botao_pag_detran = tkinter.Button(text=" CONSULTAR ", command=funcao_chamar_pag_consulta_veiculo.janela_api)
-botao_pag_detran.grid(row=3, column=4, pady=5, padx=5, sticky='nswe')
-
-# CHASSI DO VEICULO
-
-janela_chassi = Label(text='NUMERO DO CHASSI:')
-janela_chassi.grid(row=7, column=0, padx=0, pady=0, sticky='nswe')
-entrada_chassi = Entry()
-entrada_chassi.grid(row=7, column=1, pady=0, padx=0, sticky='nswe')
-
-# GERA CODIGO
-
-botao_codigo = tkinter.Button(text="Click para gerar codigo. ", command=inserir_codigo)
-botao_codigo.grid(row=10, column=0, pady=2, padx=5, sticky='nswe', columnspan=3)
-texto_cadastro = Label(janela, text=" ")  # MENSAGEM EM TEXTO , CHAMANDO A FUNCAO .
-texto_cadastro.grid(row=11, column=1, sticky='nswe')
-
-#______________________________MESAGEM TELA DE SERVICO _CADASTRADO________________________________________
-def get_dados():
-    nome = entrada.get()
-    cep = entrada_cep.get()
-    placa = placa_veiculo.get()
-    chassi = entrada_chassi.get()
-    t_veiculo = botao_combobox.get()
-
-    banco_de_dados.append((nome, cep, placa, chassi, t_veiculo))
-    print(banco_de_dados)
-    messagebox.showinfo('SERVIÇO CADASTRADO.')
-
-
-# BOTAO CONFIRMAR CASATRO DE TUDO
-
-botao_codigo = tkinter.Button(text=" Confirmar ", command=get_dados)
-botao_codigo.grid(row=12, column=0, pady=5, padx=5, sticky='nswe')
-
-# BOTAO CANCELAR
-
-botao_codigo = tkinter.Button(text=" Cancelar ")
-botao_codigo.grid(row=12, column=1, pady=5, padx=5, sticky='nswe')
-
-#_________________________________JANELA 2 _______________________________________________________________
-
-def abrir_jabela():
-    # janela_2 = tkinter.Toplevel()
-    # janela_2.title('nova janela')
-
-    janela2 = Tk()
-    janela2.geometry("800x800+1000+300")
-    janela2.title('DESPACHANTE DIGITAL - CHECK LIST ')
-    janela2.resizable = True  # resizable=True movintar a tela e false trava tela
-    janela2.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fechar janela
-
-    # --TEXTO TELA----
-    texto = Label(text="PREENCHA O CHECK LIST")
-    texto.grid(row=0, column=1, pady=0, padx=0, sticky='nswe')
-
-    #  1 ENTRADA DE NOME:
-    entrada = Label(janela2, text=" NOME: ")
-    entrada.grid(row=3, column=0, padx=0, pady=0, sticky='nswe')
-    entrada1 = Entry(janela2)
-    entrada1.grid(row=3, column=1, pady=0, padx=0, sticky='nswe')
-
-    # 2 ENTRADA PLACA:
-    entrada = Label(janela2, text=" DIGITE A PLACA :  ")
-    entrada.grid(row=4, column=0, padx=0, pady=0, sticky='nswe')
-    placa = Entry(janela2)
-    placa.grid(row=4, column=1, pady=0, padx=0, sticky='nswe')
-
-    def bd_tela_2():
-        banco = dict()
-        dados1 = list()
-
-        banco['id'] = entrada1.get()
-        banco['placa'] = placa.get()
-
-        dados1.append(banco.copy())
-        print(f' ESTE E O PRINTE list()  {dados1}')
-        print(f' ESTE E O PRINTE dict()  {banco}')
-
-    botao_confirma = tkinter.Button(janela2, text=" CONFIRMA_2 ", command=bd_tela_2)
-    botao_confirma.grid(row=5, column=0, pady=5, padx=5, sticky='nswe')
-
-    botao_cancelar = tkinter.Button(janela2, text=" cancelar_2 ", command=janela2.destroy)
-    botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky='nswe')
-
-
-        # _____________________CHAMAR JANELA 2________________________
-
-
-botao_codigo = tkinter.Button(text="Janela 2", command=abrir_jabela)
-botao_codigo.grid(row=13, column=1, pady=5, padx=5, sticky='nswe')
-
-botao_sair = tkinter.Button(text=" SAIR ")
-botao_sair.grid(row=8, column=1, pady=5, padx=5, sticky='nswe')
-
-
-# ________________________________ JANELA 3 ________________________________________________________
-
-
+# ________________________________ JANELA CADASTRO __________________________________________________
 def abrir_jabela_3():
 
 
@@ -286,10 +73,6 @@ def abrir_jabela_3():
     potencia = StringVar()
     veiculo_a= StringVar()
 
-
-
-
-
     def clear ():
 
 
@@ -309,8 +92,6 @@ def abrir_jabela_3():
         caixa_dialogo_a.delete(0,END)
         potencia.delete(0,END)
         veiculo_a.delete(0,END)
-
-
 
      #def pode_pular()  #---> funsao deixar passar
         #pass
@@ -513,7 +294,7 @@ def abrir_jabela_3():
     numero.grid(row=6 , column=3 , pady=0, padx=0,ipady= 0,sticky='nswe')
 
     # __________________________  CIDADE :_____________________________________
-    lista_cidades =sorted(['Belo Horizonte ','IBIRITE','SARZEDO','MARIO CAMPOS','BETIM','S.J DE BICAS','IGARAPE','BRUMADINHO',
+    lista_cidades =sorted(['BELO HORIZONTE ','IBIRITE','SARZEDO','MARIO CAMPOS','BETIM','S.J DE BICAS','IGARAPE','BRUMADINHO',
                     'CRUCILANDIA','PATOS DE MINAS', 'JANUARIA','CONGONHAS','CORINTOS','SETE LAGOS',
                     'SABARA','PIEDADE GERAIS'])
 
@@ -547,7 +328,7 @@ def abrir_jabela_3():
     estado.set('MG')
 
 
-    #______________________ BOTOES DE CONFIRMACAO   JANELA 3 _______________________________
+    #______________________ BOTOES DE CONFIRMACAO  CADASTRO- JANELA 3 _______________________________
 
 
     botao_salva = tkinter.Button(janela3,text="SALVAR",command= puxando_dados and ordem_servico)
@@ -643,7 +424,7 @@ def abrir_jabela_3():
     botao_detran.grid(row=22, column=1, pady=5, padx=5, sticky='nswe')
 
 
-#_________________________________________________________JANELA SERVICOS _____________________________________________
+#_________________________________JANELA SERVICOS _____________________________________________
 
 def abrir_janela_4():
 
@@ -687,7 +468,7 @@ def abrir_janela_4():
     botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky='nswe')
 
 
-#_________________________________JANELA 5 ___GERENCIAMENTO _________________________________________________________
+#_________________________________JANELA 5 ___GERENCIAMENTO ___________________________________________
 def abrir_janela_5():
 
     janela5 = Tk()
@@ -730,7 +511,7 @@ def abrir_janela_5():
     botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky='nswe')
 
 
-#____________________________________JANELA __6_ FINANCEIRO____________________________________________________________
+#____________________________________JANELA __6_ FINANCEIRO_______________________________________
 
 def abrir_janela_6():
     janela6 = Tk()
@@ -772,7 +553,7 @@ def abrir_janela_6():
     botao_cancelar = tkinter.Button(janela6, text=" cancelar_2 ", command=janela6.destroy)
     botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky='nswe')
 
-#_____________________________________JANELA 7__MANUTECAO______________________________________________________________
+#_____________________________________JANELA 7__MANUTECAO______________________________________
 
 def abrir_janela_7():
     janela7 = Tk()
@@ -815,7 +596,95 @@ def abrir_janela_7():
     botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky='nswe')
 
 
-#_____________________________________________________________________________________________________________________
+#____________________________________JANELA LOGIN___________________________________________
+
+
+
+
+entrada_cred_nome = []
+entrada_cred_senha = []
+
+a_novo_nome =[]
+a_nova_senha=[]
+
+#________________FUNCAO  ENTRADA NOME E SENHA DE USUSARIO____________________
+
+def botao_entrada():
+    nome = entra_nome.get()
+    senha = entra_senha.get()
+
+
+    entrada_cred_nome.append(nome)
+    entrada_cred_senha.append(senha)
+
+    print(entrada_cred_nome, entrada_cred_senha)
+    print('AS DUAS NOVAS ,ENTRADA ')
+
+    if  entra_nome :
+        print('SENHA VALIDA !!!')
+        messagebox.showinfo('Seja Bem vindo !!!')
+
+    else:
+        print(False)
+        print('CADASTRE SENHA INVALIDA !!!')
+        messagebox.showinfo('NAO CADASTRADO!!! CADASTRE A BAIXO.')
+        entrada_cred_senha.clear()
+        entrada_cred_nome.clear()
+
+#________________________ FUNCAO ENTRA DE NOVO NOME E  NOVA SENHA_______________________
+def senha_nova():
+
+    nome = novo_nome.get()
+    senha = nova_senha.get()
+
+    a_novo_nome.append(nome)
+    a_nova_senha.append(senha)
+
+    print(a_novo_nome,a_nova_senha)
+
+
+# ___________________ENTRADA  NOME__________________________________
+
+janela_nome= Label(text= "ENTRE COM NOME:  ")
+janela_nome.place(x= 20, y = 150)
+entra_nome = Entry()
+entra_nome.place(x= 200, y = 150)
+
+# _________________ENTRADA SENHA__________________________________
+
+janela_senha= Label(text= "ENTRE COM SENHA  ")
+janela_senha.place(x= 20, y = 180)
+entra_senha = Entry()
+entra_senha.place(x= 200, y = 180)
+
+# __________________BOTAO CONFIRMAR ENTRADA__________________________
+
+botao_confirmar_senha = tkinter.Button(text="ENTRAR ", command=botao_entrada)
+botao_confirmar_senha.place(x= 300, y = 230)
+
+#_______________________ENTRADAS SENHAS NOVAS ____________________________
+
+#_________________________ENTRADA NOVO NOME_________________________________
+
+janela_cadastro_nome = Label(text= " NOVO NOME ", fg="Red")
+janela_cadastro_nome.place(x= 20, y = 270)
+novo_nome= Entry()
+novo_nome.place(x= 200, y = 270)
+
+
+# __________________________ENTRADA NOVA SENHA_________________________________
+janela_cadastro_senha = Label(text= " NOVA SENHA ",fg="Red")
+janela_cadastro_senha.place(x= 20, y= 300)
+nova_senha = Entry()
+nova_senha.place(x= 200, y = 300)
+
+# _______________________BOTAO CONFIRMA NOVA SENHA_______________________________________
+
+botao_confirmar_senha = tkinter.Button(text="SALVAR. ",command=senha_nova)
+botao_confirmar_senha.place(x= 300, y = 350)
+
+
+#_______________________________________________BOTOES NA JANELA PRINCIPAL_____________________
 
 botao_codigo = tkinter.Button(text="MANUTENCAO", command=abrir_janela_7)
 botao_codigo.grid(row=1, column=4, pady=5, padx=5, sticky='nswe')
@@ -834,7 +703,7 @@ botao_codigo = tkinter.Button(text="CADASTRO", command=abrir_jabela_3)
 botao_codigo.grid(row=1, column=0, pady=5, padx=5, sticky='nswe')
 
 botao_sair = tkinter.Button(text=" SAIR ")
-botao_sair.grid(row=15, column=1, pady=5, padx=5, sticky='nswe')
+botao_sair.grid(row=1, column=5, pady=5, padx=5, sticky='nswe')
 
 
 #________________________________FIM DO LOOP DA JANELA PRINCIPAL ____________________________________
