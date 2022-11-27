@@ -16,72 +16,90 @@ janela.title("LOGIN")
 janela.geometry("500x400")
 janela.configure(background=co1)
 
-#___________VARIAVEL ARAMZENANDO SENHAS_____________
-
-#________________Lista entrada nome  e senha
-
-entrada_cred_nome = []
-entrada_cred_senha = []
-
-a_novo_nome =[]
-a_nova_senha=[]
-
-#________________FUNCAO  ENTRADA NOME E SENHA DE USUSARIO
-
-def botao_entrada():
-    nome = entra_nome.get()
-    senha = entra_senha.get()
+# ___________________ ENTRADAS __________________________________
 
 
-    entrada_cred_nome.append(nome)
-    entrada_cred_senha.append(senha)
+nome_a   = ["celso"]
+senha_a = [1,2,3,4,5]
 
-    print(entrada_cred_nome, entrada_cred_senha)
-    print('AS DUAS NOVAS ,ENTRADA ')
+achou_nome = False
+achou_senha = False
 
-    if  entra_nome :
-        print('SENHA VALIDA !!!')
-        messagebox.showinfo('Seja Bem vindo !!!')
+print(nome_a)
+print(senha_a)
+
+
+def entrada():
+
+    achou_nome = False
+    achou_senha = False
+
+
+    nome_entrada = nome.get()
+    senha_entrada = int(senha.get())
+#_______________________________________________________________
+    for x  in nome_a:
+
+        if x == nome_entrada :
+            print('OK Nome encontrado')
+            achou_nome =True
+            break
+    else:
+        print('Nome nao encontrado!! ')
+
+
+    for y  in senha_a:
+
+        if y == senha_entrada :
+            print('OK SENHA encontrado')
+            achou_senha = True
+            break
+    else:
+        print('SENHA nao encontrado!! ')
+
+
+
+    if achou_nome == True  and  achou_senha == True:
+
+       messagebox.showinfo('Seja Bem vindo !!!')
 
     else:
-        print(False)
-        print('CADASTRE SENHA INVALIDA !!!')
         messagebox.showinfo('NAO CADASTRADO!!! CADASTRE A BAIXO.')
-        entrada_cred_senha.clear()
-        entrada_cred_nome.clear()
-
-#________________________ FUNCAO ENTRA DE NOVO NOME E  NOVA SENHA
-def senha_nova():
-
-    nome = novo_nome.get()
-    senha = nova_senha.get()
-
-    a_novo_nome.append(nome)
-    a_nova_senha.append(senha)
-
-    print(a_novo_nome,a_nova_senha)
 
 
-# ___________________ ENTRADAS __________________________________
+def salva_senha_nova():
+
+
+    n_nome = novo_nome.get()
+    n_senha = int(nova_senha.get())
+
+    nome_a.append(n_nome)
+    senha_a.append(int(n_senha))
+
+
+    print(nome_a)
+    print(senha_a)
 
 # ___________________ENTRADA  NOME__________________________________
 
 janela_nome= Label(text= "ENTRE COM NOME:  ")
 janela_nome.grid(row=3, column=0,padx=0, pady=0, sticky='nswe')
-entra_nome = Entry()
-entra_nome.grid(row=3, column=1, pady=0, padx=0, sticky= 'nswe')
+nome = Entry()
+nome.grid(row=3, column=1, pady=0, padx=0, sticky= 'nswe')
 
 # _________________ENTRADA SENHA__________________________________
 
 janela_senha= Label(text= "ENTRE COM SENHA  ")
 janela_senha.grid(row=4,column=0,padx=0, pady=0, sticky='nswe')
-entra_senha = Entry()
-entra_senha.grid(row=4, column=1, pady=0, padx=0, sticky= 'nswe')
+senha = Entry()
+senha.grid(row=4, column=1, pady=0, padx=0, sticky= 'nswe')
 
 # __________________BOTAO CONFIRMAR ENTRADA__________________________
 
-botao_confirmar_senha = tkinter.Button(text="ENTRE USUARIO CADASTRADO ", command=botao_entrada)
+botao_confirmar_senha = tkinter.Button(text="ENTRE USUARIO CADASTRADO ",command=entrada)
 botao_confirmar_senha.grid(row=5, column=0, pady=2, padx=5, sticky= 'nswe',columnspan=3)
+
+
 
 #_______________________ENTRADAS SENHAS NOVAS ____________________________
 
@@ -101,7 +119,7 @@ nova_senha.grid(row=7, column=1, pady=0, padx=0, sticky= 'nswe')
 
 # _______________________BOTAO CONFIRMA NOVA SENHA_______________________________________
 
-botao_confirmar_senha = tkinter.Button(text="SALVAR SENHA NOVA. ",command=senha_nova)
+botao_confirmar_senha = tkinter.Button(text="SALVAR SENHA NOVA. ",command=salva_senha_nova)
 botao_confirmar_senha.grid(row=8, column=0, pady=2, padx=5, sticky= 'nswe',columnspan=3)
 
 janela.mainloop()

@@ -3,7 +3,7 @@ import pathlib
 import tkinter
 from tkinter import *  # importa janelas
 from tkinter import ttk, messagebox # importa o cromobox -> rolagem de dados
-
+from  time import  sleep
 # _______________________Biblioteca para BANCO DE DADOS___________________________
 from tkinter.ttk import Combobox
 import openpyxl, xlrd
@@ -19,6 +19,122 @@ from tqdm import tk
 import funcao_chama_habilitacao
 import funcao_chamar_pag_consulta_veiculo
 
+
+#____________________________________JANELA LOGIN___________________________________________
+
+janela_login = Tk()
+janela_login.title("LOGIN")
+janela_login.geometry("500x600")
+
+
+
+nome_a   = ["celso"]
+senha_a = [1,2]
+
+achou_nome = False
+achou_senha = False
+
+print(nome_a)
+print(senha_a)
+
+
+#______________________   FUNCAO LOGIN ENTRADA USUARIO   _________________________________________
+
+def entrada():
+
+    achou_nome = False
+    achou_senha = False
+
+    nome_entrada = nome.get()
+    senha_entrada = int(senha.get())
+
+    for x  in nome_a:
+
+        if x == nome_entrada :
+            print('OK Nome encontrado')
+            achou_nome =True
+            break
+
+    else:
+        print('Nome nao encontrado!! ')
+
+
+    for y  in senha_a:
+
+        if y == senha_entrada :
+            print('OK SENHA encontrado')
+            achou_senha = True
+            break
+    else:
+        print('SENHA nao encontrado!! ')
+
+    if achou_nome == True  and  achou_senha == True:
+
+       messagebox.showinfo('Seja Bem vindo !!!')
+       janela_login.destroy()
+
+    else:
+        messagebox.showinfo('NAO CADASTRADO!!! CADASTRE A BAIXO.')
+
+#______________________  FUNCAO LOGIN ENTRADA  DE NOVO USUARIO   _____________________________________
+
+def salva_senha_nova():
+
+
+    n_nome = novo_nome.get()
+    n_senha = int(nova_senha.get())
+
+    nome_a.append(n_nome)
+    senha_a.append(int(n_senha))
+
+    print(nome_a)
+    print(senha_a)
+
+# ___________________ENTRADA  NOME__________________________________
+
+janela_nome= Label(text= "ENTRE COM NOME:  ")
+janela_nome.place(x= 20, y = 150)
+nome = Entry()
+nome.place(x= 200, y = 150)
+
+# _________________ENTRADA SENHA__________________________________
+
+janela_senha= Label(text= "ENTRE COM SENHA  ")
+janela_senha.place(x= 20, y = 180)
+senha = Entry()
+senha.place(x= 200, y = 180)
+
+# __________________BOTAO CONFIRMAR ENTRADA__________________________
+
+botao_confirmar_senha = tkinter.Button(text="ENTRAR ", command=entrada)
+botao_confirmar_senha.place(x= 300, y = 230)
+
+
+
+#_______________________ENTRADAS SENHAS NOVAS ____________________________
+
+#_________________________ENTRADA NOVO NOME_________________________________
+
+janela_cadastro_nome = Label(text= " NOVO NOME ", fg="Red")
+janela_cadastro_nome.place(x= 20, y = 270)
+novo_nome= Entry()
+novo_nome.place(x= 200, y = 270)
+
+
+# __________________________ENTRADA NOVA SENHA_________________________________
+janela_cadastro_senha = Label(text= " NOVA SENHA ",fg="Red")
+janela_cadastro_senha.place(x= 20, y= 300)
+nova_senha = Entry()
+nova_senha.place(x= 200, y = 300)
+
+# _______________________BOTAO CONFIRMA NOVA SENHA_______________________________________
+
+botao_confirmar_senha = tkinter.Button(text="SALVAR. ",command=salva_senha_nova)
+botao_confirmar_senha.place(x= 300, y = 350)
+
+janela_login.mainloop()
+
+#_______________________________________________________________________________________________
 #cores ------------------------------
 co0 = "#fof3f5" # preto
 co1 = "#feffff" # branco
@@ -44,6 +160,9 @@ janela.confirm_close = True  # confirm_close=True, pergunta de confirmaçao fech
 bg = PhotoImage(file="v.png")
 label1 = Label(janela, image=bg)
 label1.place(x=250, y=500)
+
+
+
 
 # ________________________________ JANELA CADASTRO __________________________________________________
 def abrir_jabela_3():
@@ -594,94 +713,6 @@ def abrir_janela_7():
 
     botao_cancelar = tkinter.Button(janela7, text=" cancelar_2 ", command=janela7.destroy)
     botao_cancelar.grid(row=5, column=1, pady=5, padx=5, sticky='nswe')
-
-
-#____________________________________JANELA LOGIN___________________________________________
-
-
-
-
-entrada_cred_nome = []
-entrada_cred_senha = []
-
-a_novo_nome =[]
-a_nova_senha=[]
-
-#________________FUNCAO  ENTRADA NOME E SENHA DE USUSARIO____________________
-
-def botao_entrada():
-    nome = entra_nome.get()
-    senha = entra_senha.get()
-
-
-    entrada_cred_nome.append(nome)
-    entrada_cred_senha.append(senha)
-
-    print(entrada_cred_nome, entrada_cred_senha)
-    print('AS DUAS NOVAS ,ENTRADA ')
-
-    if  entra_nome :
-        print('SENHA VALIDA !!!')
-        messagebox.showinfo('Seja Bem vindo !!!')
-
-    else:
-        print(False)
-        print('CADASTRE SENHA INVALIDA !!!')
-        messagebox.showinfo('NAO CADASTRADO!!! CADASTRE A BAIXO.')
-        entrada_cred_senha.clear()
-        entrada_cred_nome.clear()
-
-#________________________ FUNCAO ENTRA DE NOVO NOME E  NOVA SENHA_______________________
-def senha_nova():
-
-    nome = novo_nome.get()
-    senha = nova_senha.get()
-
-    a_novo_nome.append(nome)
-    a_nova_senha.append(senha)
-
-    print(a_novo_nome,a_nova_senha)
-
-
-# ___________________ENTRADA  NOME__________________________________
-
-janela_nome= Label(text= "ENTRE COM NOME:  ")
-janela_nome.place(x= 20, y = 150)
-entra_nome = Entry()
-entra_nome.place(x= 200, y = 150)
-
-# _________________ENTRADA SENHA__________________________________
-
-janela_senha= Label(text= "ENTRE COM SENHA  ")
-janela_senha.place(x= 20, y = 180)
-entra_senha = Entry()
-entra_senha.place(x= 200, y = 180)
-
-# __________________BOTAO CONFIRMAR ENTRADA__________________________
-
-botao_confirmar_senha = tkinter.Button(text="ENTRAR ", command=botao_entrada)
-botao_confirmar_senha.place(x= 300, y = 230)
-
-#_______________________ENTRADAS SENHAS NOVAS ____________________________
-
-#_________________________ENTRADA NOVO NOME_________________________________
-
-janela_cadastro_nome = Label(text= " NOVO NOME ", fg="Red")
-janela_cadastro_nome.place(x= 20, y = 270)
-novo_nome= Entry()
-novo_nome.place(x= 200, y = 270)
-
-
-# __________________________ENTRADA NOVA SENHA_________________________________
-janela_cadastro_senha = Label(text= " NOVA SENHA ",fg="Red")
-janela_cadastro_senha.place(x= 20, y= 300)
-nova_senha = Entry()
-nova_senha.place(x= 200, y = 300)
-
-# _______________________BOTAO CONFIRMA NOVA SENHA_______________________________________
-
-botao_confirmar_senha = tkinter.Button(text="SALVAR. ",command=senha_nova)
-botao_confirmar_senha.place(x= 300, y = 350)
 
 
 #_______________________________________________BOTOES NA JANELA PRINCIPAL_____________________
